@@ -1,0 +1,32 @@
+Portfolioprüfung – Werkstück A – Alternative 4
+1 Aufgabe
+Entwickeln Sie einen Simulator für die Scheduling-Verfahren (Algorithmen):
+• FCFS (First Come First Served)
+• SJF (Shortest Job First)
+• SRTF (Shortest Remaining Time First)
+• LRTF (Longest Remaining Time First)
+Der Simulator soll in der Lage sein, die Ausführungsreihenfolge für eine bestimm-
+ten Anzahl an Prozessen darzustellen und die Ausführungsreihenfolge der Prozesse
+entweder als Gantt-Diagramm (Zeitleiste) oder in einer anderen geeigneten Form
+auszugeben. Die Anzahl der Prozesse und deren jeweilige Laufzeiten und Ankunfts-
+zeiten soll der Benutzer (mit sinnvollen Einschränkungen!) frei festlegen können. Teil
+der Ausgabe sollen auch die Laufzeiten (1) und Wartezeiten (2) der einzelnen Prozesse
+sowie die durschnittliche Laufzeit und durchschnittliche Wartezeit sein.
+Es ist Ihnen freigestellt, ob Ihr Simulator den Benutzer am Anfang der Programm-
+ausführung fragt, welches Scheduling-Verfahren er simulieren möchte oder ob Sie für
+jedes Scheduling-Verfahren ein eigenes Programm entwickeln und implementieren.
+Schreiben Sie eine aussagekräftige und ansehnliche Dokumentation (Umfang: 8-10 Seiten) über 
+Ihre Lösung.
+Die Funktionalität der Lösung müssen Sie in der Übung demonstrieren. Bereiten Sie
+dafür einen Vortrag mit Präsentationsfolien (Umfang: 15-20 Minuten) vor.
+
+2 Vorgehensweise
+Es ist ihnen freigestellt, welche Programmiersprache Sie verwenden.
+Ihre Anwendung soll eine Kommandozeilenanwendung sein.
+Der Quellcode soll durch Kommentare verständlich sein.
+Bearbeiten Sie die Aufgabe in Teams zu maximal 3 Personen
+
+(1)
+Zeit [s] von der Prozesserzeugung bis zur Terminierung.
+(2)
+Zeit [s], in der der Prozess im Zustand "bereit" ist, aber keinen Zugriff auf die CPU hat.
