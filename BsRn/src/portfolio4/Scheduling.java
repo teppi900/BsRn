@@ -72,7 +72,6 @@ public class Scheduling {
 				freeTime=ankunftsZeit[i]-temp;
 				temp=temp+freeTime;
 				tempLength(temp);
-				System.out.print(freeTime);
 			}
 			else if (ankunftsZeit[i]<=temp) {
 				int tempSave=ankunftsZeit[i];
@@ -83,7 +82,7 @@ public class Scheduling {
 				for (int j = 0; j < laufZeit[i]; j++) {											//Laufzeit
 					System.out.print("*"+"\t");																
 				}																			//wenn fertig Laufzeit zum temp addieren
-					temp=temp+laufZeit[laufZeit.length-1];
+				temp+=laufZeit[i];
 		}
 	}
 	public void SRTF(){
