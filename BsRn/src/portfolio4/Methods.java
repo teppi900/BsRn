@@ -84,31 +84,33 @@ public class Methods {
 		return temp2;
 	}
 	public int readzahlen3(){
-		int temp3=0;
-		try {
-			temp3=sc.nextInt();
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("Fehler, nur Zahlen");
-			readzahlen3();
-		}
+		int temp3=sc.nextInt();
+//		try {
+//			temp3=sc.nextInt();
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println("Fehler, nur Zahlen");
+//			readzahlen3();
+//		}
 		return temp3;
 	}
 	public ArrayList<Prozess> prozessSpeicherung(int temp2,int temp3){
 		if (temp2==0) {																				// funktioniert irgendwie nicht
 			prozessList=new ArrayList<>(temp3);
-			for (int i = 0; i < prozessList.size(); i++) {
+			System.out.println(prozessList.size());
+			for (int i = 0; i < temp3; i++) {
 				System.out.println("Daten für Prozess "+i+": ");
 				System.out.println("id: ");
-				String id=sc.nextLine();
+				String id=sc.next();
 				System.out.println("Ankunftszeit: ");
 				int ankunftsZeit=sc.nextInt();
 				System.out.println("Laufzeit: ");
 				int laufZeit=sc.nextInt();
 				System.out.println("===========================================================================");
-				System.out.println("Prozess "+1+" id:"+id+", AnkunftsZeit:"+ankunftsZeit+", Laufzeit:"+laufZeit);
+				System.out.println("Prozess "+i+" id:"+id+", AnkunftsZeit:"+ankunftsZeit+", Laufzeit:"+laufZeit);
 				Prozess tempProzess=new Prozess(ankunftsZeit,laufZeit,id);
 				prozessList.add(i, tempProzess);
+				
 			}
 		
 		}
@@ -125,7 +127,7 @@ public class Methods {
 		return prozessList;
 	}
 	public int randomZahl(){
-		int random=(int)Math.round(Math.random()*10+1);
+		int random=(int)Math.round(Math.random()*5+1);
 		return random;
 	}
 	public int randomZahl2(){

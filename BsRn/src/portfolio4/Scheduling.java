@@ -17,39 +17,6 @@ public class Scheduling {
 		
 	}
 	public void FCFS(ArrayList<Prozess>sizes){												// Problem beim Prozessen die die selben Ankunftszeit haben
-//		int size=sizes.size();
-//		Integer[]timeStamp=new Integer[size];
-//		int cpuLaufzeit=sizes.get(0).getAnkuftsZeit();
-//		timeStamp[0]=cpuLaufzeit;
-//		int warteZeit=0;
-//		int length=0;
-//		for (int i = 1; i <sizes.size()-1; i++) {
-//			warteZeit=warteZeit+sizes.get(i).getLaufZeit();
-//			sizes.get(i).setWarteZeit(warteZeit);
-//			
-//			cpuLaufzeit=cpuLaufzeit+warteZeit;
-//			timeStamp[i]=cpuLaufzeit;
-//		}
-//		int laufZeit=warteZeit+sizes.get(sizes.size()-1).getLaufZeit();
-//		timeStamp[timeStamp.length-1]=laufZeit;
-//		System.out.println(timeStamp[timeStamp.length-1]);
-//		System.out.println("FCFS:");
-//		for (int i = 0; i < timeStamp[timeStamp.length-1]; i++) {
-//			System.out.print("   "+i+"  ");
-//			for (int j = 0; j < timeStamp.length; j++) {                                                    //!!!!!
-//				System.out.println(i+"   ");
-//				int temp=timeStamp[j]-cpuLaufzeit;
-//				length=temp;
-//				for (int k = 0; k < temp; k++) {
-//					
-//					System.out.print("-  ");
-//					
-//				}
-//				
-//				
-//				
-//			}
-//		}
 		int[]waitingTimes=new int[sizes.size()];
 		int[]finishedTimes=new int[sizes.size()];
 		int[]ankunftsZeit=new int[sizes.size()];
@@ -67,7 +34,13 @@ public class Scheduling {
 		finishedTimes[0] = ankunftsZeit[0] + laufZeit[0];
 		System.out.println(finishedTimes[0]);
 		for (int k = 1; k < sizes.size(); k++) {
-		     finishedTimes[k] = finishedTimes[k - 1] + laufZeit[k];
+			if (ankunftsZeit[k]<=finishedTimes[k-1]) {
+				finishedTimes[k] = finishedTimes[k - 1] + laufZeit[k];
+//				System.out.print(finishedTimes[k]+"="+finishedTimes[k-1]+"+"+laufZeit[k]);
+			}else {
+				finishedTimes[k]=ankunftsZeit[k]+laufZeit[k];
+//				System.out.print(finishedTimes[k]+"="+k+"+"+laufZeit[k]);
+			}
 //		     System.out.println(finishedTimes[k]);
 		}	
 //		System.out.println(finishedTimes.length);
@@ -84,9 +57,6 @@ public class Scheduling {
 			}else {
 				System.out.print("\t"+i);
 			}
-				
-		
-
 		}
 //		for (int i = 0; i < ankunft; i++) {
 //			System.out.print("  "+i);
@@ -95,30 +65,26 @@ public class Scheduling {
 //			}
 //		}
 		int temp=ankunftsZeit[0];
-		int freeTime=0;
+		int freeTime=0;	
 		for (int i = 0; i < sizes.size(); i++) {
-			
 			System.out.print("\n"+sizes.get(i).getId()+"\t");
-			if (ankunftsZeit[i]>temp) {
+			if (ankunftsZeit[i]>temp) {															//Lücken zwischen Prozessen
 				freeTime=ankunftsZeit[i]-temp;
 				temp=temp+freeTime;
+				tempLength(temp);
+				System.out.print(freeTime);
 			}
-			tempLength(temp);
-			
-			
-				for (int j = 0; j < laufZeit[i]; j++) {
-				
-				System.out.print("*"+"\t");																
-				if (j==laufZeit[laufZeit.length-1]-1) {
+			else if (ankunftsZeit[i]<=temp) {
+				int tempSave=ankunftsZeit[i];
+				ankunftsZeit[i]=temp;
+				tempLength(ankunftsZeit[i]);
+				ankunftsZeit[i]=tempSave;
+			}
+				for (int j = 0; j < laufZeit[i]; j++) {											//Laufzeit
+					System.out.print("*"+"\t");																
+				}																			//wenn fertig Laufzeit zum temp addieren
 					temp=temp+laufZeit[laufZeit.length-1];
-				
-			}
-				}
-				
-				
 		}
-		
-		
 	}
 	public void SRTF(){
 		m.getProzessList();
@@ -135,7 +101,7 @@ public class Scheduling {
 	public int tempLength(int ankunftsTime){												
 		int tempLength=ankunftsTime;
 		for (int k = 0; k < tempLength; k++) {
-			System.out.print("|"+"\t");
+			System.out.print(" "+"\t");
 		}
 		return tempLength;
 	}
