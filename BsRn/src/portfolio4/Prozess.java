@@ -9,7 +9,8 @@ package portfolio4;
  */
 public class Prozess {
 	
-	private int ankuftsZeit,laufZeit,warteZeit;
+	private int ankuftsZeit,laufZeit;
+	private int warteZeit=0;
 	private String id;
 	
 	public Prozess(int aZeit,int lZeit,String id) {
