@@ -15,9 +15,9 @@ public class Scheduling {
 	
 	public void SJF(ArrayList<Prozess>sizes){
 		ArrayList<Prozess>tempProzess=new ArrayList<>(sizes);
-		for (int i = 0; i < tempProzess.size(); i++) {
-			tempProzess.set(i, tempProzess.get(i));
-		}
+//		for (int i = 0; i < tempProzess.size(); i++) {
+//			tempProzess.set(i, sizes.get(i));
+//		}
 		int startCheck=tempProzess.get(0).getAnkuftsZeit();
 		for (int i = 1; i < tempProzess.size(); i++) {
 			if (startCheck==tempProzess.get(i).getAnkuftsZeit()) {
