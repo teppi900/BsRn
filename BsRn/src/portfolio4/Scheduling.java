@@ -107,7 +107,7 @@ public class Scheduling {
 				tempLength(ankunftsZeit[i]);
 				ankunftsZeit[i]=tempSave;
 				int waitZeit=temp-ankunftsZeit[i];
-				sizes.get(i).setWarteZeit(waitZeit);
+				tempProzess.get(i).setWarteZeit(waitZeit);
 			}
 				for (int j = 0; j < tempProzess.get(i).getLaufZeit(); j++) {											//Laufzeit
 					System.out.print("*"+"\t");																
