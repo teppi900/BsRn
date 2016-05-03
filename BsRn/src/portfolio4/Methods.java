@@ -39,13 +39,13 @@ public class Methods {
 			
 			switch (temp) {
 			case 0:
-				s1.SJF();
+				s1.SJF(prozessSpeicherung(temp2, temp3));
 				s1.FCFS(prozessSpeicherung(temp2, temp3));
 				s1.SRTF();
 				s1.LRTF();
 				break;
 			case 1:
-				s1.SJF();
+				s1.SJF(prozessSpeicherung(temp2, temp3));
 				break;
 			case 2:
 				s1.FCFS(prozessSpeicherung(temp2, temp3));
@@ -95,7 +95,7 @@ public class Methods {
 		return temp3;
 	}
 	public ArrayList<Prozess> prozessSpeicherung(int temp2,int temp3){
-		if (temp2==0) {																				// funktioniert irgendwie nicht
+		if (temp2==0) {																				
 			prozessList=new ArrayList<>(temp3);
 			System.out.println(prozessList.size());
 			for (int i = 0; i < temp3; i++) {
