@@ -52,8 +52,10 @@ public class Scheduling {
 					tempProzess.add(i+j, tempTemp.get(i));
 				}
 				finishedTimes[j]=finishedTimes[j-1]+tempProzess.get(j).getLaufZeit();
-			}
+			}else {
 				finishedTimes[j]=ankunftsZeit[j]+tempProzess.get(j).getLaufZeit();
+			}
+				
 			}
 //			if (finishedTimes[j-1]>=ankunftsZeit[j]) {
 //				int temp=0;
@@ -93,8 +95,8 @@ public class Scheduling {
 		}
 		int temp=ankunftsZeit[0];
 		int freeTime=0;	
-		for (int i = 0; i < sizes.size(); i++) {
-			System.out.print("\n"+sizes.get(i).getId()+"\t");
+		for (int i = 0; i < tempProzess.size(); i++) {
+			System.out.print("\n"+tempProzess.get(i).getId()+"\t");
 			if (ankunftsZeit[i]>temp) {															//Lücken zwischen Prozessen
 				freeTime=ankunftsZeit[i]-temp;
 				temp=temp+freeTime;
@@ -202,11 +204,11 @@ public class Scheduling {
 		avgLauf=(int)avgLauf + (Math.round(Math.pow(10,2)*(avgLauf-(int)avgLauf)))/(Math.pow(10,2));
 		return avgLauf;
 	}
-	public double tempLength(int ankunftsTime){												
-		double tempLength=ankunftsTime;
+	public void tempLength(int ankunftsTime){												
+		int tempLength=ankunftsTime;
 		for (int k = 0; k < tempLength; k++) {
 			System.out.print(" "+"\t");
 		}
-		return tempLength;
+		
 	}
 }
