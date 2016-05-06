@@ -15,31 +15,39 @@ public class Scheduling {
 	
 	public void SJF(ArrayList<Prozess>sizes){
 		ArrayList<Prozess>tempProzess=new ArrayList<>(sizes);
-//		for (int i = 0; i < tempProzess.size(); i++) {
-//			tempProzess.set(i, sizes.get(i));
-//		}
-		int startCheck=tempProzess.get(0).getAnkuftsZeit();
-		for (int i = 1; i < tempProzess.size(); i++) {
-			if (startCheck==tempProzess.get(i).getAnkuftsZeit()) {
-				if (tempProzess.get(i).getLaufZeit()<tempProzess.get(i-1).getLaufZeit()) {
-					tempProzess.remove(i);
-					tempProzess.add(i, sizes.get(i-1));
-					tempProzess.remove(i-1);
-					tempProzess.add(i-1, sizes.get(i));
-				}
+		int tempCounter=1;
+		while (tempProzess.get(0).getAnkuftsZeit()==tempProzess.get(tempCounter).getAnkuftsZeit()) {
+			tempCounter++;
+			if (tempCounter==tempProzess.size()) {
+				break;
 			}
-			startCheck=tempProzess.get(i).getAnkuftsZeit();	
+			
+			
 		}
-		int[]ankunftsZeit=new int[tempProzess.size()];
+		if (tempCounter>1) {
+			ArrayList<Prozess>rePosition=new ArrayList<>();
+			for (int i = 0; i < tempCounter; i++) {
+				rePosition.add(i, tempProzess.get(i));
+			}
+			System.out.println(rePosition.size());
+			rePosition.sort(Comparator.comparing(Prozess::getLaufZeit));
+			for (int i = 0; i < rePosition.size(); i++) {
+				System.out.println(rePosition.get(i).getLaufZeit());
+				tempProzess.set(i, rePosition.get(i));
+			}
+		}
+			// bug with last item
+		
 		int[]finishedTimes=new int[tempProzess.size()];
-		for (int i = 0; i < ankunftsZeit.length; i++) {
-			ankunftsZeit[i]=tempProzess.get(i).getAnkuftsZeit();
-		}
-		finishedTimes[0] = ankunftsZeit[0] + tempProzess.get(0).getLaufZeit();
+	
+		finishedTimes[0] = tempProzess.get(0).getAnkuftsZeit() + tempProzess.get(0).getLaufZeit();
 		for (int j = 1; j < tempProzess.size(); j++) {
 			int temp=0;
-			while (finishedTimes[j-1]>=ankunftsZeit[j+temp] && temp+j!=ankunftsZeit.length-1) {
+			while (finishedTimes[j-1]>=tempProzess.get(j+temp).getAnkuftsZeit()) {
 				temp++;
+				if (temp+j==tempProzess.size()) {
+					break;
+				}
 			}
 			if (temp!=0) {
 				ArrayList<Prozess>tempTemp=new ArrayList<>(temp);
@@ -53,38 +61,9 @@ public class Scheduling {
 				}
 				finishedTimes[j]=finishedTimes[j-1]+tempProzess.get(j).getLaufZeit();
 			}else {
-				finishedTimes[j]=ankunftsZeit[j]+tempProzess.get(j).getLaufZeit();
-			}
-				
-			}
-//			if (finishedTimes[j-1]>=ankunftsZeit[j]) {
-//				int temp=0;
-//				for (int i = j; i < tempProzess.size(); i++) {
-//					if (finishedTimes[i-1]>=ankunftsZeit[i+temp]&&(i+temp)==tempProzess.size()-1) {										//!!!
-//						break;
-//						
-//					}
-//					if (finishedTimes[i-1]>=ankunftsZeit[i+temp]) {
-//						temp++;
-//					}
-//					
-//				}
-//				int diff=j-temp;
-//				ArrayList<Prozess>tempTemp=new ArrayList<>(diff); 
-//				for (int i = 0; i < diff; i++) {
-//					tempTemp.add(i,tempProzess.get(i+j) );
-//					
-//				}
-//				tempTemp.sort(Comparator.comparing(Prozess::getLaufZeit));
-//				for (int i = 0; i < tempTemp.size(); i++) {
-//					tempProzess.remove(i+j);
-//					tempProzess.add(j+i, tempTemp.get(i));
-//				}
-//				finishedTimes[j]=finishedTimes[j-1]+tempProzess.get(j).getLaufZeit();
-//			}else {
-//				finishedTimes[j]=ankunftsZeit[j]+tempProzess.get(j).getLaufZeit();
-//			}
-//		}
+				finishedTimes[j]=tempProzess.get(j).getAnkuftsZeit()+tempProzess.get(j).getLaufZeit();
+			}	
+		}
 		int length=finishedTimes[finishedTimes.length-1];
 		for (int i = 0; i <length ; i++) {
 			if (i<10) {
@@ -93,38 +72,38 @@ public class Scheduling {
 				System.out.print("\t"+i);
 			}
 		}
-		int temp=ankunftsZeit[0];
+		int temp=tempProzess.get(0).getAnkuftsZeit();
 		int freeTime=0;	
 		for (int i = 0; i < tempProzess.size(); i++) {
 			System.out.print("\n"+tempProzess.get(i).getId()+"\t");
-			if (ankunftsZeit[i]>temp) {															//Lücken zwischen Prozessen
-				freeTime=ankunftsZeit[i]-temp;
+			if (tempProzess.get(i).getAnkuftsZeit()>temp) {															//Lücken zwischen Prozessen
+				freeTime=tempProzess.get(i).getAnkuftsZeit()-temp;
 				temp=temp+freeTime;
 				tempLength(temp);
 
 			}
-			else if (ankunftsZeit[i]<=temp) {
-				int tempSave=ankunftsZeit[i];
-				ankunftsZeit[i]=temp;
-				tempLength(ankunftsZeit[i]);
-				ankunftsZeit[i]=tempSave;
-				int waitZeit=temp-ankunftsZeit[i];
+			else if (tempProzess.get(i).getAnkuftsZeit()<=temp) {
+				int tempSave=tempProzess.get(i).getAnkuftsZeit();
+				
+				tempLength(temp);
+				tempProzess.get(i).setAnkuftsZeit(tempSave);
+				int waitZeit=temp-tempProzess.get(i).getAnkuftsZeit();
 				tempProzess.get(i).setWarteZeit(waitZeit);
 			}
-				for (int j = 0; j < tempProzess.get(i).getLaufZeit(); j++) {											//Laufzeit
+				for (int j = 0; j < tempProzess.get(i).getLaufZeit(); j++) {										//Laufzeit
 					System.out.print("*"+"\t");																
-				}																				//wenn fertig Laufzeit zum temp addieren
+				}																									//wenn fertig Laufzeit zum temp addieren
 					temp+=tempProzess.get(i).getLaufZeit();
 		}
 		System.out.print("\n\n");
-		for (int i = 0; i < tempProzess.size(); i++) {												//Ausgabe von Daten
+		for (int i = 0; i < tempProzess.size(); i++) {																//Ausgabe von Daten
 			System.out.println("Prozess id: "+tempProzess.get(i).getId()+", Ankunftszeit: "+tempProzess.get(i).getAnkuftsZeit()+", Laufzeit: "+tempProzess.get(i).getLaufZeit()+", Waittime: "+tempProzess.get(i).getWarteZeit());
 		}
 		System.out.println("Average Waittime: " +averageWait(tempProzess));
 		System.out.println("Average Bursttime: "+averageLauf(tempProzess));
 	}
 		
-	public void FCFS(ArrayList<Prozess>sizes){									 			// Problem beim Prozessen die die selben Ankunftszeit haben
+	public void FCFS(ArrayList<Prozess>sizes){									 			
 		int[]finishedTimes=new int[sizes.size()];
 		int[]ankunftsZeit=new int[sizes.size()];
 		for (int i = 0; i < ankunftsZeit.length; i++) {
@@ -209,6 +188,5 @@ public class Scheduling {
 		for (int k = 0; k < tempLength; k++) {
 			System.out.print(" "+"\t");
 		}
-		
 	}
 }

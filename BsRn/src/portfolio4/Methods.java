@@ -123,7 +123,7 @@ public class Methods {
 			}	
 			
 		}
-		prozessList.sort(Comparator.comparing(Prozess::getAnkuftsZeit)); //!!! nice shit
+		prozessList.sort(Comparator.comparing(Prozess::getAnkuftsZeit));
 		return prozessList;
 	}
 	public int randomZahl(){
