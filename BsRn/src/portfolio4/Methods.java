@@ -41,7 +41,7 @@ public class Methods {
 			case 0:
 				s1.SJF(prozessSpeicherung(temp2, temp3));
 				s1.FCFS(prozessSpeicherung(temp2, temp3));
-				s1.SRTF();
+				s1.SRTF(prozessSpeicherung(temp2, temp3));
 				s1.LRTF();
 				break;
 			case 1:
@@ -51,7 +51,7 @@ public class Methods {
 				s1.FCFS(prozessSpeicherung(temp2, temp3));
 				break;
 			case 3:
-				s1.SRTF();
+				s1.SRTF(prozessSpeicherung(temp2, temp3));
 				break;
 			case 4:
 				s1.LRTF();
