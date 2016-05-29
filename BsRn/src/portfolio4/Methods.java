@@ -71,6 +71,7 @@ public class Methods {
 	public int readZahlen(){
 		int temp=5;
 		do {
+			System.out.println("Zahl zwischen 0-4");
 			temp=sc.nextInt();
 		} while (temp>4||temp<0);
 		
@@ -79,19 +80,17 @@ public class Methods {
 	public int readZahlen2(){
 		int temp2=3;
 		do {
+			System.out.println("Zahl zwischen 0-1");
 			temp2=sc.nextInt();
 		} while (temp2>1||temp2<0);
 		return temp2;
 	}
 	public int readzahlen3(){
-		int temp3=sc.nextInt();
-//		try {
-//			temp3=sc.nextInt();
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			System.out.println("Fehler, nur Zahlen");
-//			readzahlen3();
-//		}
+		int temp3=0;
+		do {
+			System.out.println("Zahl zwischen 2-10");
+			temp3=sc.nextInt();
+		} while (temp3<2||temp3>10);
 		return temp3;
 	}
 	public ArrayList<Prozess> prozessSpeicherung(int temp2,int temp3){
