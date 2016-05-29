@@ -218,19 +218,15 @@ public class Scheduling {
 		else {
 			buffer.add(tempProzess.get(0));
 		}
-
-		//done
-	
 		int start=buffer.get(0).getAnkuftsZeit();//!! KEIN Daten drin
 	System.out.println(buffer.get(0).getMarks().length);
-	
+	//srtf
 	for (int i = start; i < finishedTimes[finishedTimes.length-1]; i++) {
 		if (i<clone .get(0)) {
 			//i kleine als nachster knackpunkt
 			if (buffer.get(0).getLaufZeit()>0) {
-				buffer.get(0).setLaufZeit(buffer.get(0).getLaufZeit());
+				buffer.get(0).setLaufZeit(buffer.get(0).getLaufZeit()-1);
 				buffer.get(0).getMarks()[i]=true;
-System.out.println("Laufzeit: "+buffer.get(0).getLaufZeit());
 			}
 			else if (buffer.get(0).getLaufZeit()==0) {
 				buffer.get(0).setCheck(false);																					//brauch man bis jetzt nicht
@@ -246,19 +242,18 @@ System.out.println("Laufzeit: "+buffer.get(0).getLaufZeit());
 				}
 				else if (buffer.size()==1&&clone.size()>1) {																//freeTime Problem
 					for (int j = 0; j < tempProzess.size(); j++) {
-						if (tempProzess.get(j).getAnkuftsZeit()==clone.get(0)) {
-							buffer.add(tempProzess.get(j));
+						if (clone.size()>1) {
+							if (tempProzess.get(j).getAnkuftsZeit()==clone.get(0)) {
+								buffer.add(tempProzess.get(j));
+							}
 						}
 					}
 					buffer.remove(0);
 					i=clone.get(0);
-					
 					buffer.sort(Comparator.comparing(Prozess::getLaufZeit));
 				}
-				
+				i-=1;
 			}
-		
-			
 		}
 		else if (i==clone.get(0)) {
 			//i==nachster knackpunkt
@@ -270,29 +265,40 @@ System.out.println("Laufzeit: "+buffer.get(0).getLaufZeit());
 			}
 			buffer.sort(Comparator.comparing(Prozess::getLaufZeit));
 			clone.remove(0);
-			clone.trimToSize();
-//			buffer.get(0).setLaufZeit(buffer.get(0).getLaufZeit()-1);	//!!!
-//			buffer.get(0).getMarks()[i]=true;
-//			System.out.println("a");
 			i-=1;
 			}
-			else if (clone.size()==1) {
-				//clone size==0
-				//waitTime berechnung
-				
+		}
+	}
+	//----------------srtf-----------------------
+	//----------------done-----------------------------
+	//waittime
+	for (int i = 0; i < tempProzess.size(); i++) {
+		int count=0;
+		int lauf=tempProzess.get(i).getLaufZeit();
+		for (int j = tempProzess.get(i).getAnkuftsZeit(); j < tempProzess.get(i).getMarks().length; j++) {
+			if (tempProzess.get(i).getMarks()[j]==true) {
+				lauf--;
+				if (lauf==0) {
+					break;
+				}
+			}
+			else if (tempProzess.get(i).getMarks()[j]==false) {
+				count++;
 			}
 		}
-		
+		tempProzess.get(i).setWarteZeit(count);
 	}
+	//waittime
 			int length=finishedTimes[finishedTimes.length-1];
 			for (int i = 0; i <length ; i++) {
 				if (i<10) {
 					System.out.print("\t"+"0"+i);
 				}else {
+					
 					System.out.print("\t"+i);
 				}
 			}
-			for (int i = 0; i < buffer.size(); i++) {
+			for (int i = 0; i < tempProzess.size(); i++) {
 				System.out.print("\n"+tempProzess.get(i).getId()+"\t");
 				boolean[]tempMark=tempProzess.get(i).getMarks();
 				for (int k = 0; k < tempMark.length; k++) {
@@ -303,6 +309,12 @@ System.out.println("Laufzeit: "+buffer.get(0).getLaufZeit());
 					}
 				}
 			}
+			System.out.print("\n\n");
+			for (int i = 0; i < tempProzess.size(); i++) {												//Ausgabe von Daten
+				System.out.println("Prozess id: "+tempProzess.get(i).getId()+", Ankunftszeit: "+tempProzess.get(i).getAnkuftsZeit()+", Laufzeit: "+tempProzess.get(i).getLaufZeit()+", Waittime: "+tempProzess.get(i).getWarteZeit()+", BurstTime: "+(tempProzess.get(i).getLaufZeit()+tempProzess.get(i).getWarteZeit()));
+			}
+			System.out.println("Average Waittime: " +averageWait(tempProzess));
+			System.out.println("Average Bursttime: "+averageLauf(tempProzess));
 	}
 	public void LRTF(){
 		m.getProzessList();
