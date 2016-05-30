@@ -82,8 +82,9 @@ public class Methods {
 				System.out.println("Zahl zwischen 0-4");
 				temp=sc.nextInt();
 			} catch (Exception e) {
-				System.out.println("Nur Zahlen");
-				readZahlen();
+				System.out.println("Fehler");
+				System.out.println("bitte neu starten");
+				System.exit(0);
 			}
 		} while (temp>4||temp<0);
 		
@@ -96,8 +97,9 @@ public class Methods {
 				System.out.println("Zahl zwischen 0-1");
 				temp2=sc.nextInt();
 			} catch (Exception e) {
-				System.out.println("Nur Zahlen");
-				readZahlen2();
+				System.out.println("Fehler");
+				System.out.println("bitte neu starten");
+				System.exit(0);
 			}
 		} while (temp2>1||temp2<0);
 		return temp2;
@@ -109,7 +111,9 @@ public class Methods {
 		     System.out.println("Zahl zwischen 2-10");
 		     temp3=sc.nextInt();}
 		catch(Exception e){
-		System.out.println("Nur Zahlen");
+			System.out.println("Fehler");
+			System.out.println("bitte neu starten");
+			System.exit(0);
 		}
 		    } while (temp3<2||temp3>10);
 		  return temp3;
@@ -128,9 +132,10 @@ public class Methods {
 					try {
 						System.out.println("Ankunftszeit: ");
 						ankunftsZeit=sc.nextInt();
-					} catch (InputMismatchException e) {
+					} catch (Exception e) {
 						System.out.println("Fehler");
-							prozessSpeicherung(temp2, temp3);
+						System.out.println("bitte neu starten");
+						System.exit(0);
 					}
 				} while (ankunftsZeit>20||ankunftsZeit<0);
 				
@@ -141,7 +146,8 @@ public class Methods {
 						laufZeit=sc.nextInt();
 					} catch (InputMismatchException e) {
 						System.out.println("Fehler");
-						prozessSpeicherung(temp2, temp3);
+						System.out.println("bitte neu starten");
+						System.exit(0);
 					}
 					
 				} while (laufZeit<1||laufZeit>10);
