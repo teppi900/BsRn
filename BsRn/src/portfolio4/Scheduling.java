@@ -425,13 +425,11 @@ public class Scheduling {
 			//i kleie als nachster knackpunkt
 			
 			if (lauf2>0) {
-				
-				buffer.get(0).setLaufZeit(lauf2-1);
+				lauf2--;
 				System.out.println(buffer.get(0).getId()+" "+lauf2);
 				buffer.get(0).getMarks()[i]=true;
 			}
 			else if (lauf2==0) {
-				//brauch man bis jetzt nicht
 				for (int j = 0; j < tempProzess.size(); j++) {
 					if (tempProzess.get(j).getObjectId()==buffer.get(0).getObjectId()) {
 						tempProzess.get(j).setMarks(buffer.get(0).getMarks());
@@ -474,6 +472,7 @@ public class Scheduling {
 						
 						}
 					}
+					lauf2=buffer.get(0).getLaufZeit();
 				i-=1;
 				}
 			}
@@ -486,7 +485,7 @@ public class Scheduling {
 					buffer.add(tempProzess.get(j));
 				}
 			}
-		
+			buffer.get(0).setLaufZeit(lauf2);
 			buffer.sort(Comparator.comparing(Prozess::getLaufZeit));
 			Collections.reverse(buffer);
 			int tempC=1;
@@ -507,6 +506,7 @@ public class Scheduling {
 				}
 				
 			}
+			lauf2=buffer.get(0).getLaufZeit();
 			clone.remove(0);//---------------------fehler schon--------------------------
 			i-=1;
 			}

@@ -123,14 +123,17 @@ public class Methods {
 				System.out.println("Daten für Prozess "+i+": ");
 				System.out.println("Name: ");
 				String id=sc.next();
-				int ankunftsZeit=0;
-				try {
-					System.out.println("Ankunftszeit: ");
-					ankunftsZeit=sc.nextInt();
-				} catch (InputMismatchException e) {
-					System.out.println("Fehler");
-						prozessSpeicherung(temp2, temp3);
-				}
+				int ankunftsZeit=21;
+				do {
+					try {
+						System.out.println("Ankunftszeit: ");
+						ankunftsZeit=sc.nextInt();
+					} catch (InputMismatchException e) {
+						System.out.println("Fehler");
+							prozessSpeicherung(temp2, temp3);
+					}
+				} while (ankunftsZeit>20||ankunftsZeit<0);
+				
 				int laufZeit=0;
 				do {
 					try {
