@@ -452,12 +452,28 @@ public class Scheduling {
 					buffer.sort(Comparator.comparing(Prozess::getLaufZeit));
 					Collections.reverse(buffer);
 					int tempC=1;
+					Prozess tempP=buffer.get(0);
+					if (buffer.size()>1) {
+						while (buffer.get(0).getLaufZeit()==buffer.get(tempC).getLaufZeit()) {
+							tempC++;
+							if (tempC==buffer.size()) {
+								break;
+							}
+						}
+					}
 					if (tempC>1) {
 						ArrayList<Prozess>reP=new ArrayList<>();
 						for (int k = 0; k < tempC; k++) {
 							reP.add(k, buffer.get(k));
 						}
+						for (int j = 0; j < reP.size(); j++) {
+							if (tempP==reP.get(j)) {
+								reP.remove(j);
+								reP.add(reP.size()-1,tempP);
+							}
+						}
 						Collections.reverse(reP);
+						
 						for (int k = 0; k < reP.size(); k++) {
 							buffer.set(k, reP.get(k));
 						}
@@ -471,6 +487,7 @@ public class Scheduling {
 		else if (i==clone.get(0)) {
 			//i==nachster knackpunkt
 			if (clone.size()>1) {
+				Prozess tempP=buffer.get(0);
 			for (int j = 0; j < tempProzess.size(); j++) {
 				if (tempProzess.get(j).getAnkuftsZeit()==clone.get(0)) {
 					buffer.add(tempProzess.get(j));
@@ -479,12 +496,27 @@ public class Scheduling {
 			buffer.sort(Comparator.comparing(Prozess::getLaufZeit));
 			Collections.reverse(buffer);
 			int tempC=1;
+			if (buffer.size()>1) {
+				while (buffer.get(0).getLaufZeit()==buffer.get(tempC).getLaufZeit()) {
+					tempC++;
+					if (tempC==buffer.size()) {
+						break;
+					}
+				}
+			}
 			if (tempC>1) {
 				ArrayList<Prozess>reP=new ArrayList<>();
 				for (int k = 0; k < tempC; k++) {
 					reP.add(k, buffer.get(k));
 				}
+				for (int j = 0; j < reP.size(); j++) {
+					if (tempP==reP.get(j)) {
+						reP.remove(j);
+						reP.add(reP.size()-1,tempP);
+					}
+				}
 				Collections.reverse(reP);
+				
 				for (int k = 0; k < reP.size(); k++) {
 					buffer.set(k, reP.get(k));
 				}
