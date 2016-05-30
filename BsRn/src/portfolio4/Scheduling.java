@@ -383,12 +383,12 @@ public class Scheduling {
 			for (int i = 0; i < tempCounter; i++) {
 				rePosition.add(i, tempProzess.get(i));
 			}
+			System.out.println(rePosition.size());
 			rePosition.sort(Comparator.comparing(Prozess::getLaufZeit));
-			Collections.reverse(rePosition);	
-			
+			Collections.reverse(rePosition);
 			int tempC=1;
-			if (rePosition.size()>1) {
-				while (rePosition.get(0).getLaufZeit()==rePosition.get(tempC).getLaufZeit()) {
+			if (buffer.size()>1) {
+				while (buffer.get(0).getLaufZeit()==buffer.get(tempC).getLaufZeit()) {
 					tempC++;
 					if (tempC==buffer.size()) {
 						break;
@@ -397,18 +397,19 @@ public class Scheduling {
 				if (tempC>1) {
 					ArrayList<Prozess>reP=new ArrayList<>();
 					for (int k = 0; k < tempC; k++) {
-						reP.add(k, buffer.get(k));
+						reP.add(k, rePosition.get(k));
 					}
-					rePosition.sort(Comparator.comparing(Prozess::getObjectId));
+					Collections.reverse(reP);
 					for (int k = 0; k < reP.size(); k++) {
 						rePosition.set(k, reP.get(k));
 					}
 				
 				}
 			}
-		
+
 	
 			for (int i = 0; i < rePosition.size(); i++) {
+				System.out.println(rePosition.get(i).getLaufZeit());
 				tempProzess.set(i, rePosition.get(i));
 				buffer.add(rePosition.get(i));
 			}
@@ -416,20 +417,18 @@ public class Scheduling {
 		else {
 			buffer.add(tempProzess.get(0));
 		}
-		int start=buffer.get(0).getAnkuftsZeit();//!! KEIN Daten drin
+		int start=buffer.get(0).getAnkuftsZeit();
 	
 	//lrtf
-		int lauf2=buffer.get(0).getLaufZeit();
 	for (int i = start; i < finishedTimes[finishedTimes.length-1]; i++) {
-		if (i<clone.get(0)) {
-			//i kleie als nachster knackpunkt
-			
-			if (lauf2>0) {
-				lauf2--;
-				System.out.println(buffer.get(0).getId()+" "+lauf2);
+		if (i<clone .get(0)) {
+			//i kleine als nachster knackpunkt
+			if (buffer.get(0).getLaufZeit()>0) {
+				buffer.get(0).setLaufZeit(buffer.get(0).getLaufZeit()-1);
 				buffer.get(0).getMarks()[i]=true;
 			}
-			else if (lauf2==0) {
+			else if (buffer.get(0).getLaufZeit()==0) {
+				buffer.get(0).setCheck(false);																					//brauch man bis jetzt nicht
 				for (int j = 0; j < tempProzess.size(); j++) {
 					if (tempProzess.get(j).getObjectId()==buffer.get(0).getObjectId()) {
 						tempProzess.get(j).setMarks(buffer.get(0).getMarks());
@@ -440,7 +439,7 @@ public class Scheduling {
 				if (buffer.size()>1) {
 					buffer.remove(0);
 				}
-				else if (buffer.size()==1&&clone.size()>1) {																
+				else if (buffer.size()==1&&clone.size()>1) {																//freeTime Problem
 					for (int j = 0; j < tempProzess.size(); j++) {
 						if (clone.size()>1) {
 							if (tempProzess.get(j).getAnkuftsZeit()==clone.get(0)) {
@@ -453,28 +452,20 @@ public class Scheduling {
 					buffer.sort(Comparator.comparing(Prozess::getLaufZeit));
 					Collections.reverse(buffer);
 					int tempC=1;
-					if (buffer.size()>1) {
-						while (buffer.get(0).getLaufZeit()==buffer.get(tempC).getLaufZeit()) {
-							tempC++;
-							if (tempC==buffer.size()) {
-								break;
-							}
+					if (tempC>1) {
+						ArrayList<Prozess>reP=new ArrayList<>();
+						for (int k = 0; k < tempC; k++) {
+							reP.add(k, buffer.get(k));
 						}
-						if (tempC>1) {
-							ArrayList<Prozess>rePosition=new ArrayList<>();
-							for (int k = 0; k < tempC; k++) {
-								rePosition.add(k, buffer.get(k));
-							}
-							rePosition.sort(Comparator.comparing(Prozess::getObjectId));
-							for (int k = 0; k < rePosition.size(); k++) {
-								buffer.set(k, rePosition.get(k));
-							}
-						
+						Collections.reverse(reP);
+						for (int k = 0; k < reP.size(); k++) {
+							buffer.set(k, reP.get(k));
 						}
+					
 					}
-					lauf2=buffer.get(0).getLaufZeit();
-				i-=1;
+				
 				}
+				i-=1;
 			}
 		}
 		else if (i==clone.get(0)) {
@@ -485,58 +476,35 @@ public class Scheduling {
 					buffer.add(tempProzess.get(j));
 				}
 			}
-			buffer.get(0).setLaufZeit(lauf2);
 			buffer.sort(Comparator.comparing(Prozess::getLaufZeit));
 			Collections.reverse(buffer);
 			int tempC=1;
-			while (buffer.get(0).getLaufZeit()==buffer.get(tempC).getLaufZeit()) {
-				tempC++;
-				if (tempC==buffer.size()) {
-					break;
-				}
-			}
 			if (tempC>1) {
-				ArrayList<Prozess>rePosition=new ArrayList<>();
+				ArrayList<Prozess>reP=new ArrayList<>();
 				for (int k = 0; k < tempC; k++) {
-					rePosition.add(k, buffer.get(k));
+					reP.add(k, buffer.get(k));
 				}
-				rePosition.sort(Comparator.comparing(Prozess::getObjectId));
-				for (int k = 0; k < rePosition.size(); k++){ 
-					buffer.set(k, rePosition.get(k));
+				Collections.reverse(reP);
+				for (int k = 0; k < reP.size(); k++) {
+					buffer.set(k, reP.get(k));
 				}
-				
+			
 			}
-			lauf2=buffer.get(0).getLaufZeit();
-			clone.remove(0);//---------------------fehler schon--------------------------
+			clone.remove(0);
 			i-=1;
 			}
-			}
 		}
-	
+	}
 	//----------------lrtf-----------------------
 
 	//waittime
-//	for (int j = 0; j < tempProzess.size(); j++) {
-//		int counter=0;
-//		for (int j2 = 0; j2 < tempProzess.get(j).getMarks().length; j2++) {
-//			if (tempProzess.get(j).getMarks()[j2]==true) {
-//				counter++;
-//			}
-//		}
-//		tempProzess.get(j).setLaufZeit(counter);
-//		for (int k = 0; k < sizes.size(); k++) {
-//			if (sizes.get(k).getObjectId()==tempProzess.get(j).getObjectId()) {
-//				sizes.get(k).setLaufZeit(counter);
-//			}
-//		}
-//	}
 	for (int i = 0; i < tempProzess.size(); i++) {
 		int count=0;
-		int lauf=tempProzess.get(i).getLaufZeit();
+		int lauf=0;
 		for (int j = tempProzess.get(i).getAnkuftsZeit(); j < tempProzess.get(i).getMarks().length; j++) {
 			if (tempProzess.get(i).getMarks()[j]==true) {
-				lauf--;
-				if (lauf==0) {
+				lauf++;
+				if (lauf==tempProzess.get(i).getTempLauf()) {
 					break;
 				}
 			}
@@ -546,7 +514,7 @@ public class Scheduling {
 		}
 		tempProzess.get(i).setWarteZeit(count);
 	}
-	//waittime
+	//------------waittime-------------------------------
 			int length=finishedTimes[finishedTimes.length-1];
 			for (int i = 0; i <length ; i++) {
 				if (i<10) {
@@ -569,7 +537,7 @@ public class Scheduling {
 			}
 			System.out.print("\n\n");
 			for (int i = 0; i < tempProzess.size(); i++) {												//Ausgabe von Daten
-				System.out.println("ObjektId: "+tempProzess.get(i).getObjectId()+"Prozess id: "+tempProzess.get(i).getId()+", Ankunftszeit: "+tempProzess.get(i).getAnkuftsZeit()+", Burst time: "+tempProzess.get(i).getLaufZeit()+", Wait time: "+tempProzess.get(i).getWarteZeit()+", Laufzeit: "+(tempProzess.get(i).getLaufZeit()+tempProzess.get(i).getWarteZeit()));
+				System.out.println("Prozess id: "+tempProzess.get(i).getId()+", Ankunftszeit: "+tempProzess.get(i).getAnkuftsZeit()+", Burst time: "+tempProzess.get(i).getTempLauf()+", Wait time: "+tempProzess.get(i).getWarteZeit()+", Laufzeit: "+(tempProzess.get(i).getTempLauf()+tempProzess.get(i).getWarteZeit()));
 			}
 			System.out.println("Average Waittime: " +averageWait(tempProzess));
 			System.out.println("Average Bursttime: "+averageLauf(tempProzess));
@@ -586,7 +554,7 @@ public class Scheduling {
 	public double averageLauf(ArrayList<Prozess>prozess){
 		double avgLauf=0;
 		for (int i = 0; i < prozess.size(); i++) {
-			avgLauf=avgLauf+prozess.get(i).getLaufZeit()+prozess.get(i).getWarteZeit();
+			avgLauf=avgLauf+prozess.get(i).getTempLauf()+prozess.get(i).getWarteZeit();
 		}
 		avgLauf/=prozess.size();
 		avgLauf=(int)avgLauf + (Math.round(Math.pow(10,2)*(avgLauf-(int)avgLauf)))/(Math.pow(10,2));

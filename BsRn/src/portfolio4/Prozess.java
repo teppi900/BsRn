@@ -9,7 +9,7 @@ package portfolio4;
  */
 public class Prozess {
 	
-	private int ankuftsZeit,laufZeit;
+	private int ankuftsZeit,laufZeit,tempLauf;
 	private int warteZeit=0;
 	private String id;
     private static int counter = 1;
@@ -22,8 +22,18 @@ public class Prozess {
 		this.id=id;
 		this.ankuftsZeit=aZeit;
 		this.laufZeit=lZeit;
+		this.tempLauf=lZeit;
 		objectId=counter++;
 	}
+	
+	public int getTempLauf() {
+		return tempLauf;
+	}
+
+	public void setTempLauf(int tempLauf) {
+		this.tempLauf = tempLauf;
+	}
+
 	public int getWarteZeit(){
 		return warteZeit;
 	}
