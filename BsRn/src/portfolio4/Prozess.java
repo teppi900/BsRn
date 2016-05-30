@@ -12,7 +12,7 @@ public class Prozess {
 	private int ankuftsZeit,laufZeit;
 	private int warteZeit=0;
 	private String id;
-    private static int counter = 0;
+    private static int counter = 1;
     public final int objectId;
 	private boolean[]marks;
 	private boolean check=true;

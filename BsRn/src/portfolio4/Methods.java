@@ -5,6 +5,7 @@ package portfolio4;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -39,26 +40,32 @@ public class Methods {
 			
 			switch (temp) {
 			case 0:
-				s1.SJF(prozessSpeicherung(temp2, temp3));
-				s1.FCFS(prozessSpeicherung(temp2, temp3));
-				s1.SRTF(prozessSpeicherung(temp2, temp3));
-				s1.LRTF();
+				ArrayList<Prozess>tempList=new ArrayList<>(prozessSpeicherung(temp2, temp3));
+				s1.SJF(tempList);
+				s1.FCFS(tempList);
+				s1.SRTF(tempList);
+				s1.LRTF(tempList);
+				ask();
 				break;
 			case 1:
 				s1.SJF(prozessSpeicherung(temp2, temp3));
+				ask();
 				break;
 			case 2:
 				s1.FCFS(prozessSpeicherung(temp2, temp3));
+				ask();
 				break;
 			case 3:
 				s1.SRTF(prozessSpeicherung(temp2, temp3));
+				ask();
 				break;
 			case 4:
-				s1.LRTF();
+				s1.LRTF(prozessSpeicherung(temp2, temp3));
+				ask();
 				break;
-
 			default:
 				System.out.println("Fehler");
+				ask();
 				break;
 			}
 		} catch (Exception e) {
@@ -71,8 +78,13 @@ public class Methods {
 	public int readZahlen(){
 		int temp=5;
 		do {
-			System.out.println("Zahl zwischen 0-4");
-			temp=sc.nextInt();
+			try {
+				System.out.println("Zahl zwischen 0-4");
+				temp=sc.nextInt();
+			} catch (Exception e) {
+				System.out.println("Nur Zahlen");
+				readZahlen();
+			}
 		} while (temp>4||temp<0);
 		
 		return temp;
@@ -80,33 +92,59 @@ public class Methods {
 	public int readZahlen2(){
 		int temp2=3;
 		do {
-			System.out.println("Zahl zwischen 0-1");
-			temp2=sc.nextInt();
+			try {
+				System.out.println("Zahl zwischen 0-1");
+				temp2=sc.nextInt();
+			} catch (Exception e) {
+				System.out.println("Nur Zahlen");
+				readZahlen2();
+			}
 		} while (temp2>1||temp2<0);
 		return temp2;
 	}
 	public int readzahlen3(){
-		int temp3=0;
-		do {
-			System.out.println("Zahl zwischen 2-10");
-			temp3=sc.nextInt();
-		} while (temp3<2||temp3>10);
-		return temp3;
-	}
+		  int temp3=0;
+		    do {
+		try{
+		     System.out.println("Zahl zwischen 2-10");
+		     temp3=sc.nextInt();}
+		catch(Exception e){
+		System.out.println("Nur Zahlen");
+		}
+		    } while (temp3<2||temp3>10);
+		  return temp3;
+		 }
+	
 	public ArrayList<Prozess> prozessSpeicherung(int temp2,int temp3){
 		if (temp2==0) {																				
 			prozessList=new ArrayList<>(temp3);
 			System.out.println(prozessList.size());
 			for (int i = 0; i < temp3; i++) {
 				System.out.println("Daten für Prozess "+i+": ");
-				System.out.println("id: ");
+				System.out.println("Name: ");
 				String id=sc.next();
-				System.out.println("Ankunftszeit: ");
-				int ankunftsZeit=sc.nextInt();
-				System.out.println("Laufzeit: ");
-				int laufZeit=sc.nextInt();
+				int ankunftsZeit=0;
+				try {
+					System.out.println("Ankunftszeit: ");
+					ankunftsZeit=sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Fehler");
+						prozessSpeicherung(temp2, temp3);
+				}
+				int laufZeit=0;
+				do {
+					try {
+						System.out.println("Burst time: (1-10)");
+						laufZeit=sc.nextInt();
+					} catch (InputMismatchException e) {
+						System.out.println("Fehler");
+						prozessSpeicherung(temp2, temp3);
+					}
+					
+				} while (laufZeit<1||laufZeit>10);
+				
 				System.out.println("===========================================================================");
-				System.out.println("Prozess "+i+" id:"+id+", AnkunftsZeit:"+ankunftsZeit+", Laufzeit:"+laufZeit);
+				System.out.println("Prozess "+i+" id:"+id+", AnkunftsZeit:"+ankunftsZeit+", Burst time:"+laufZeit);
 				Prozess tempProzess=new Prozess(ankunftsZeit,laufZeit,id);
 				prozessList.add(i, tempProzess);
 				
@@ -118,7 +156,7 @@ public class Methods {
 			for (int i = 0; i < temp3; i++) {
 				Prozess p=new Prozess(randomZahl2(),randomZahl(),"r"+i);
 				prozessList.add(i, p);
-				System.out.println("Prozess "+i+".\n id: "+p.getId()+", Ankunftszeit: "+p.getAnkuftsZeit()+", Laufzeit: "+p.getLaufZeit());
+				System.out.println("Prozess "+i+".\n id: "+p.getId()+", Ankunftszeit: "+p.getAnkuftsZeit()+", Burst time: "+p.getLaufZeit());
 			}	
 			
 		}
@@ -140,5 +178,27 @@ public class Methods {
 	public void setProzessList(ArrayList<Prozess> prozessList) {
 		this.prozessList = prozessList;
 	}
-	
+	public void ask(){
+		System.out.println("0: Remake \n1: End");
+		int n=2;
+		try {
+			n=sc.nextInt();
+		} catch (Exception e) {
+			System.out.println("meine Fresse");
+			ask();
+		}
+		
+		if (n==0) {
+			start();
+		}
+		else if(n==1){
+			sc.close();
+			System.out.println("Bye");
+			System.exit(0);
+		}
+		else {
+			System.out.println("Fehler "+n+" geht nicht");
+			ask();
+		}
+	}
 }
