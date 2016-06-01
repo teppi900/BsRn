@@ -383,7 +383,6 @@ public class Scheduling {
 			for (int i = 0; i < tempCounter; i++) {
 				rePosition.add(i, tempProzess.get(i));
 			}
-			System.out.println(rePosition.size());
 			rePosition.sort(Comparator.comparing(Prozess::getLaufZeit));
 			Collections.reverse(rePosition);
 			int tempC=1;
@@ -438,6 +437,28 @@ public class Scheduling {
 				}
 				if (buffer.size()>1) {
 					buffer.remove(0);
+					buffer.sort(Comparator.comparing(Prozess::getLaufZeit));
+					Collections.reverse(buffer);
+					int tempC=1;
+				
+					if (buffer.size()>1) {
+						while (buffer.get(0).getLaufZeit()==buffer.get(tempC).getLaufZeit()) {
+							tempC++;
+							if (tempC==buffer.size()) {
+								break;
+							}
+						}
+					}
+					if (tempC>1) {
+						ArrayList<Prozess>reP=new ArrayList<>();
+						for (int k = 0; k < tempC; k++) {
+							reP.add(k, buffer.get(k));
+						}
+						reP.sort(Comparator.comparing(Prozess::getAnkuftsZeit));
+						for (int k = 0; k < reP.size(); k++) {
+							buffer.set(k, reP.get(k));
+						}
+					}
 				}
 				else if (buffer.size()==1&&clone.size()>1) {																//freeTime Problem
 					for (int j = 0; j < tempProzess.size(); j++) {
@@ -452,7 +473,7 @@ public class Scheduling {
 					buffer.sort(Comparator.comparing(Prozess::getLaufZeit));
 					Collections.reverse(buffer);
 					int tempC=1;
-					Prozess tempP=buffer.get(0);
+
 					if (buffer.size()>1) {
 						while (buffer.get(0).getLaufZeit()==buffer.get(tempC).getLaufZeit()) {
 							tempC++;
@@ -466,17 +487,11 @@ public class Scheduling {
 						for (int k = 0; k < tempC; k++) {
 							reP.add(k, buffer.get(k));
 						}
-						for (int j = 0; j < reP.size(); j++) {
-							if (tempP==reP.get(j)) {
-								reP.remove(j);
-								reP.add(reP.size()-1,tempP);
-							}
-						}
-						Collections.reverse(reP);
-						
+						reP.sort(Comparator.comparing(Prozess::getAnkuftsZeit));
 						for (int k = 0; k < reP.size(); k++) {
 							buffer.set(k, reP.get(k));
 						}
+						
 					
 					}
 				
@@ -509,18 +524,17 @@ public class Scheduling {
 				for (int k = 0; k < tempC; k++) {
 					reP.add(k, buffer.get(k));
 				}
+				reP.sort(Comparator.comparing(Prozess::getAnkuftsZeit));
 				for (int j = 0; j < reP.size(); j++) {
 					if (tempP==reP.get(j)) {
 						reP.remove(j);
-						reP.add(reP.size()-1,tempP);
+						reP.add(0,tempP);
+						break;
 					}
 				}
-				Collections.reverse(reP);
-				
 				for (int k = 0; k < reP.size(); k++) {
 					buffer.set(k, reP.get(k));
 				}
-			
 			}
 			clone.remove(0);
 			i-=1;
