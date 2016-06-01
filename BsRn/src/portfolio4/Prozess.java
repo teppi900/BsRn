@@ -1,22 +1,20 @@
-/**
- * 
- */
 package portfolio4;
 
 /**
- * @author kid
- *
+ * @author Zakaria EI Boujattoui, Linus Städtler and Anh Phuc Hoang
+ * @since 01.06.2016 
+ * @version 5.0
  */
 public class Prozess {
 	
 	private int ankuftsZeit,laufZeit,tempLauf;
 	private int warteZeit=0;
-	private String id;
+	private String id;											//name
     private static int counter = 1;
-    public final int objectId;
+    public final int objectId;									//primary key
 	private boolean[]marks;
-	private boolean check=true;
-	
+	private boolean check=true;									//not needed
+	//
 	public Prozess(int aZeit,int lZeit,String id) {
 		// TODO Auto-generated constructor stub
 		this.id=id;
@@ -25,7 +23,7 @@ public class Prozess {
 		this.tempLauf=lZeit;
 		objectId=counter++;
 	}
-	
+	//Getter and Setter
 	public int getTempLauf() {
 		return tempLauf;
 	}
