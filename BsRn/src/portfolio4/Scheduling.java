@@ -55,8 +55,33 @@ public class Scheduling {
 				}																					
 				//Calculation for the next finishedTime
 				finishedTimes[j]=finishedTimes[j-1]+tempProzess.get(j).getLaufZeit();				
-			}else {
-				finishedTimes[j]=tempProzess.get(j).getAnkuftsZeit()+tempProzess.get(j).getLaufZeit();
+			}
+			else {
+				int tempC=1;
+				//check if the next AnkunftsZeit are the same
+				if (j<tempProzess.size()-1) {	
+					while (tempProzess.get(j).getAnkuftsZeit()==tempProzess.get(j+tempC).getAnkuftsZeit()  ) {
+						tempC++;
+						if (j+tempC==tempProzess.size()) {
+							break;
+						}
+					}
+					//if yes 
+					if (tempC>1) {
+						ArrayList<Prozess>rePo=new ArrayList<>();
+						for (int i = 0; i < tempC; i++) {
+							rePo.add(i, tempProzess.get(j+i));					//temporary container for those numbers 
+						}
+						rePo.sort(Comparator.comparing(Prozess::getLaufZeit));	//sort by LaufZeit
+						for (int i = j; i < j+rePo.size(); i++) {		
+							tempProzess.set(i, rePo.get(i-j));					//re add them into the main List
+						}
+					
+					
+					}
+				}
+					//calculation for finishedTimes
+					finishedTimes[j]=tempProzess.get(j).getAnkuftsZeit()+tempProzess.get(j).getLaufZeit();			
 			}	
 		}
 		//Print 
