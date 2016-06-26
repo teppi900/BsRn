@@ -95,7 +95,6 @@ public class Scheduling {
 				System.out.print("\t"+i);
 			}
 		}
-		
 		int temp=tempProzess.get(0).getAnkuftsZeit();
 		int freeTime=0;	
 		for (int i = 0; i < tempProzess.size(); i++) {
@@ -118,14 +117,7 @@ public class Scheduling {
 					temp+=tempProzess.get(i).getLaufZeit();							//if done cpu burst time will be added to temp
 		}
 		//Print of Data
-		System.out.print("\n\n");
-		System.out.println("Shortest Job First");
-		for (int i = 0; i < tempProzess.size(); i++) {																
-			System.out.println("Prozess id: "+tempProzess.get(i).getId()+", Ankunftszeit: "+tempProzess.get(i).getAnkuftsZeit()+", Cpu Burst time: "+tempProzess.get(i).getLaufZeit()+", Wait time: "+tempProzess.get(i).getWarteZeit()+", Laufzeit: "+(tempProzess.get(i).getLaufZeit()+tempProzess.get(i).getWarteZeit()));
-		}
-		System.out.println("Average Waittime: " +averageWait(tempProzess));
-		System.out.println("Average LaufZeit: "+averageLauf(tempProzess));
-
+		printData(tempProzess,0);
 	}
 	//First Come First Served
 	public void FCFS(ArrayList<Prozess>sizes){									 			
@@ -181,14 +173,7 @@ public class Scheduling {
 				}																				
 					temp+=laufZeit[i];															//if done temp+LaufZeit
 		}
-		//Print
-		System.out.print("\n\n");
-		System.out.println("First Come First Served");
-		for (int i = 0; i < sizes.size(); i++) {												
-			System.out.println("Prozess id: "+sizes.get(i).getId()+", Ankunftszeit: "+sizes.get(i).getAnkuftsZeit()+", Cpu Burst time: "+sizes.get(i).getLaufZeit()+", Wait time: "+sizes.get(i).getWarteZeit()+", Laufzeit: "+(sizes.get(i).getLaufZeit()+sizes.get(i).getWarteZeit()));
-		}
-		System.out.println("Average Waittime: " +averageWait(sizes));
-		System.out.println("Average LaufZeit: "+averageLauf(sizes));
+		printData(sizes,1);
 	}
 	//Shortest remaining time first
 	public void SRTF(ArrayList<Prozess>sizes){
@@ -347,34 +332,7 @@ public class Scheduling {
 	//------------waittime-------------------------------
 	//Print
 			int length=finishedTimes[finishedTimes.length-1];
-			System.out.println();
-			System.out.println("Shortest Remaining Time First");
-			for (int i = 0; i <length ; i++) {
-				if (i<10) {
-					System.out.print("\t"+"0"+i);
-				}else {
-					
-					System.out.print("\t"+i);
-				}
-			}
-			for (int i = 0; i < tempProzess.size(); i++) {
-				System.out.print("\n"+tempProzess.get(i).getId()+"\t");
-				boolean[]tempMark=tempProzess.get(i).getMarks();
-				for (int k = 0; k < tempMark.length; k++) {
-					if (tempMark[k]==false) {
-						System.out.print("\t");
-					}else {
-						System.out.print("*\t");
-					}
-				}
-			}
-			System.out.print("\n\n");
-			System.out.println("Shortest Remaining Time First");
-			for (int i = 0; i < tempProzess.size(); i++) {												
-				System.out.println("Prozess id: "+tempProzess.get(i).getId()+", Ankunftszeit: "+tempProzess.get(i).getAnkuftsZeit()+", Cpu Burst time: "+tempProzess.get(i).getLaufZeit()+", Wait time: "+tempProzess.get(i).getWarteZeit()+", Laufzeit: "+(tempProzess.get(i).getLaufZeit()+tempProzess.get(i).getWarteZeit()));
-			}
-			System.out.println("Average Waittime: " +averageWait(tempProzess));
-			System.out.println("Average LaufZeit: "+averageLauf(tempProzess));
+			gantSRTFLRTF(tempProzess,length,2);
 	}
 	//longest remaining time first
 	public void LRTF(ArrayList<Prozess>sizes){
@@ -427,7 +385,6 @@ public class Scheduling {
 		//if there are processes with the same ankunftsZeit as 0 they will be sorted and reversed
 		if (tempCounter>1) {
 			ArrayList<Prozess>rePosition=new ArrayList<>();
-
 			for (int i = 0; i < tempCounter; i++) {
 				rePosition.add(i, tempProzess.get(i));
 			}
@@ -451,11 +408,8 @@ public class Scheduling {
 					for (int k = 0; k < reP.size(); k++) {
 						rePosition.set(k, reP.get(k));
 					}
-				
 				}
 			}
-
-			
 			for (int i = 0; i < rePosition.size(); i++) {
 				System.out.println(rePosition.get(i).getLaufZeit());
 				tempProzess.set(i, rePosition.get(i));
@@ -614,35 +568,74 @@ public class Scheduling {
 	//------------waittime-------------------------------
 	//Print
 			int length=finishedTimes[finishedTimes.length-1];
-			System.out.println();
-			System.out.println("Longest Remaining Time First");
-			for (int i = 0; i <length ; i++) {
-				if (i<10) {
-					System.out.print("\t"+"0"+i);
-				}else {
-					
-					System.out.print("\t"+i);
-				}
-			}
-			for (int i = 0; i < tempProzess.size(); i++) {
-				System.out.print("\n"+tempProzess.get(i).getId()+"\t");
-				boolean[]tempMark=tempProzess.get(i).getMarks();
-				for (int k = 0; k < tempMark.length; k++) {
-					if (tempMark[k]==false) {
-						System.out.print("\t");
-					}else {
-						System.out.print("*\t");
-					}
-				}
-			}
-			System.out.print("\n\n");
-			System.out.println("Longest Remaining Time First");
-			for (int i = 0; i < tempProzess.size(); i++) {												
-				System.out.println("Prozess id: "+tempProzess.get(i).getId()+", Ankunftszeit: "+tempProzess.get(i).getAnkuftsZeit()+", Cpu Burst time: "+tempProzess.get(i).getTempLauf()+", Wait time: "+tempProzess.get(i).getWarteZeit()+", Laufzeit: "+(tempProzess.get(i).getTempLauf()+tempProzess.get(i).getWarteZeit()));
-			}
-			System.out.println("Average Waittime: " +averageWait(tempProzess));
-			System.out.println("Average LaufZeit: "+averageLauf(tempProzess));
+			gantSRTFLRTF(tempProzess,length,3);
 	}
+	//Print Data
+	public void gantSRTFLRTF(ArrayList<Prozess>tempProzess,int length,int t){
+		System.out.println();
+		switch (t) {
+		case 2:
+			System.out.println("Shortest Remaining Time First");
+			break;
+
+		case 3:
+			System.out.println("Longest Remaining Time First");
+			break;
+
+		default:
+			break;
+		}
+		for (int i = 0; i <length ; i++) {
+			if (i<10) {
+				System.out.print("\t"+"0"+i);
+			}else {
+				
+				System.out.print("\t"+i);
+			}
+		}
+		for (int i = 0; i < tempProzess.size(); i++) {
+			System.out.print("\n"+tempProzess.get(i).getId()+"\t");
+			boolean[]tempMark=tempProzess.get(i).getMarks();
+			for (int k = 0; k < tempMark.length; k++) {
+				if (tempMark[k]==false) {
+					System.out.print("\t");
+				}else {
+					System.out.print("*\t");
+				}
+			}
+		}
+		printData(tempProzess,t);
+	}
+	public void printData(ArrayList<Prozess>tempProzess,int t){
+		System.out.print("\n\n");
+		switch (t) {
+		case 0:
+			System.out.println("Shortest Job First");
+			break;
+			
+		case 1:
+			System.out.println("First Come First Served");
+			break;
+
+		case 2:
+			System.out.println("Shortest Remaining Time First");
+			break;
+
+		case 3:
+			System.out.println("Longest Remaining Time First");
+			break;
+
+		default:
+			break;
+		}
+		
+		for (int i = 0; i < tempProzess.size(); i++) {												
+			System.out.println("Prozess id: "+tempProzess.get(i).getId()+", Ankunftszeit: "+tempProzess.get(i).getAnkuftsZeit()+", Cpu Burst time: "+tempProzess.get(i).getTempLauf()+", Wait time: "+tempProzess.get(i).getWarteZeit()+", Laufzeit: "+(tempProzess.get(i).getTempLauf()+tempProzess.get(i).getWarteZeit()));
+		}
+		System.out.println("Average Waittime: " +averageWait(tempProzess));
+		System.out.println("Average LaufZeit: "+averageLauf(tempProzess));
+	}
+	
 	//calculation of average wait time
 	public double averageWait(ArrayList<Prozess>prozess){
 		double avgWait=0;
