@@ -143,14 +143,14 @@ public class Methods {
 				int ankunftsZeit=21;
 				do {
 					try {
-						System.out.println("Ankunftszeit: ");		
+						System.out.println("Ankunftszeit: (0-10) ");		
 						ankunftsZeit=sc.nextInt();					//get the start time
 					} catch (Exception e) {
 						System.out.println("Fehler");
 						System.out.println("bitte neu starten");
 						System.exit(0);
 					}
-				} while (ankunftsZeit>20||ankunftsZeit<0);			//start has to be between 20 and 0
+				} while (ankunftsZeit>10||ankunftsZeit<0);			//start has to be between 10 and 0
 				
 				int laufZeit=0;
 				do {
