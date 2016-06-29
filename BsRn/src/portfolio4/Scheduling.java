@@ -392,10 +392,10 @@ public class Scheduling {
 			Collections.reverse(rePosition);									//reversed
 			//reverse the processes that have the same LaufZeit as that of 0
 			int tempC=1;
-			if (buffer.size()>1) {
-				while (buffer.get(0).getLaufZeit()==buffer.get(tempC).getLaufZeit()) {
+			if (rePosition.size()>1) {
+				while (rePosition.get(0).getLaufZeit()==rePosition.get(tempC).getLaufZeit()) {
 					tempC++;
-					if (tempC==buffer.size()) {
+					if (tempC==rePosition.size()) {
 						break;
 					}
 				}
@@ -411,7 +411,6 @@ public class Scheduling {
 				}
 			}
 			for (int i = 0; i < rePosition.size(); i++) {
-				System.out.println(rePosition.get(i).getLaufZeit());
 				tempProzess.set(i, rePosition.get(i));
 				buffer.add(rePosition.get(i));
 			}
@@ -442,12 +441,13 @@ public class Scheduling {
 				//temporary container size is greater than 1
 				if (buffer.size()>1) {
 					buffer.remove(0);															//remove the first 1
-					buffer.sort(Comparator.comparing(Prozess::getLaufZeit));					//sort
-					Collections.reverse(buffer);												//reverse
 					int tempC=1;
 					
 					//reverse all the processes that have the same laufZeit as that of 0
 					if (buffer.size()>1) {
+					buffer.sort(Comparator.comparing(Prozess::getLaufZeit));					//sort
+					Collections.reverse(buffer);												//reverse
+					
 						while (buffer.get(0).getLaufZeit()==buffer.get(tempC).getLaufZeit()) {
 							tempC++;
 							if (tempC==buffer.size()) {
@@ -460,6 +460,7 @@ public class Scheduling {
 						for (int k = 0; k < tempC; k++) {
 							reP.add(k, buffer.get(k));
 						}
+						reP.sort(Comparator.comparing(Prozess::getObjectId));
 						reP.sort(Comparator.comparing(Prozess::getAnkuftsZeit));
 						for (int k = 0; k < reP.size(); k++) {
 							buffer.set(k, reP.get(k));
