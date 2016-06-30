@@ -12,6 +12,7 @@ import java.util.Comparator;
 public class Scheduling {
 	//Shortest Remaining Time First
 	public void SJF(ArrayList<Prozess>sizes){
+	
 		ArrayList<Prozess>tempProzess=new ArrayList<>(sizes);
 		//check if the first numbers have the same ankunftsZeit
 		int tempCounter=1;

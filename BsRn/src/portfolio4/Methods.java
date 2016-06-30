@@ -138,8 +138,12 @@ public class Methods {
 			System.out.println(prozessList.size());
 			for (int i = 0; i < temp3; i++) {						
 				System.out.println("Daten für Prozess "+i+": ");
-				System.out.println("Name: ");								
+				System.out.println("Name: max 5 Zeichen ");								
 				String id=sc.next();								//get the name of the process
+				do {
+					System.out.println("Name: (max 5 Zeichen) ");
+					id=sc.next();
+				} while (id.length()>5);
 				int ankunftsZeit=21;
 				do {
 					try {
